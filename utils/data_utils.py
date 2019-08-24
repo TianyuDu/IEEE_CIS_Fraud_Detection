@@ -56,7 +56,16 @@ def split_data(
 
 
 def train_input_fn(X, y, batch_size) -> "TensorSliceDataset":
-    raise NotImplementedError
+    """
+    Converts the pandas dataset into tensorflow datasets.
+    """
+    dataset = tf.data.Dataset.from_tensor_slices((dict(X), y))
+    shuffle_buffer = len(X) // 10  # See doc. of dataset.shuffle.
+    # Personally, I don't think it really matter here, as long as we keep
+    # the buffer size sufficiently large.
+    # Consider training with different buffer size.
+    dataset = dataset.shuffle(shuffle_buffer).repeat().batch(batch_size)
+    return dataset
 
 
 def sample_dataset(
