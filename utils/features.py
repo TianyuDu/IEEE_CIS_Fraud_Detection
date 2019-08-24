@@ -47,13 +47,13 @@ def drop_inferior_features_transaction(
         raise ValueError("nan_threshold should be in range [0, 1].")
 
     for col in df.columns:
-        if col != target:  # Preserve the target column.
+        if col == target:  # Preserve the target column.
             continue
         nan_percentage = np.mean(df[col].isna())
         if nan_percentage >= nan_threshold:
-            df = df.drop(columns=[col])
+            df.drop(columns=[col], inplace=True)
     print("{}/{} features left with nan threshold {}".format(
-        len(df), num_columns, nan_threshold
+        df.shape[1], num_columns, nan_threshold
     ))
     return df
 
