@@ -36,8 +36,8 @@ def split_data(df: pd.DataFrame) -> Set[pd.DataFrame]:
     df = features.clean_data(df)
     X = df.drop(columns=["TransactionID"])
     y = df[["TransactionID", "isFraud"]]
-    print("Positive samples: {}/{} ({}%)".format(
-        np.sum(y.isFraud), len(y), np.mean(y.isFraud)
+    print("Positive samples: {}/{} ({:0.4f}%)".format(
+        np.sum(y.isFraud), len(y), np.mean(y.isFraud) * 100
     ))
     return X, y
 
