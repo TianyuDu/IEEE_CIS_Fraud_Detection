@@ -50,7 +50,7 @@ def sample_dataset(
 ) -> None:
     """
     Creates a subsample of the entire training set, to improve performance of model prototyping.
-    A [train, test]_[tr, id]_focus.csv file
+    A {train, test}_{transaction, identity}_focus.csv file
     containing the sub-sampled dataset will be stored in path provided.
 
     Args:
