@@ -27,6 +27,7 @@ def load_dataset(path: str = "./data") -> pd.DataFrame:
     X_test, y_test = split_data(df_test, data="transaction")
     return (X_train, y_train), (X_test, y_test)
 
+
 def split_data(
     df: pd.DataFrame,
     data: str
