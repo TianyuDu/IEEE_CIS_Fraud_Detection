@@ -36,6 +36,7 @@ def clean_transaction(df: pd.DataFrame) -> pd.DataFrame:
     df = _clean_categorical_transaction(df, fill="missing")
     return df
 
+
 def _drop_inferior_features_transaction(
     df: pd.DataFrame,
     nan_threshold: float,
