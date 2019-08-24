@@ -11,3 +11,7 @@ Use `./data/` to store training and test datasets. Files under `./data/` are add
 
 #### Conventions
 Directionaries are called `path` or `file_dir` and, by default, the path strings do *not* end with `/`.
+
+Use upper-case `X` to denote the design matrix (i.e. feature matrix), both dataframes and numpy arraies.
+
+Use lower-case `y` to denote the label matrix, both dataframes and numpy arries.
