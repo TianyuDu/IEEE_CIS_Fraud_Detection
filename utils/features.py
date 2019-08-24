@@ -79,4 +79,8 @@ def clean_categorical_transaction(
     Cleans the original dataset and formulates it so that
     it is compatible with most existing ML models.
     """
+    report = "{}: {} unique values."
+    for col in CATEGORICAL_TRANS:
+        try:
+            print(report.format(col, len(set(df[col]))))
 
