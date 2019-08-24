@@ -17,6 +17,7 @@ CATEGORICAL_TRANS = sum(
     ["ProductCD"]
 )
 
+# Categorical columns in identity dataset.
 CATEGORICAL_ID = ["DeviceType", "DeviceInfo"] + [
     "id_" + str(i) for i in range(12, 39)
 ]
