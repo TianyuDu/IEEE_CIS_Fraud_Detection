@@ -34,6 +34,12 @@ def split_data(df: pd.DataFrame) -> Set[pd.DataFrame]:
         y @ (num_samples, 2) with columns ["TransactionID", "isFraud"].
     """
     df = features.clean_data(df)
+    X = df.drop(columns=["TransactionID"])
+    y = df[["TransactionID", "isFraud"]]
+    print("Positive samples: {}/{} ({}%)".format(
+        np.sum(y.isFraud), len(y), np.mean(y.isFraud)
+    ))
+    return X, y
 
 
 def sample_dataset(
