@@ -21,19 +21,30 @@ def load_dataset(path: str = "./data") -> pd.DataFrame:
     """
     df_train = pd.read_csv(path + "/train_transaction_focus.csv")
     df_test = pd.read_csv(path + "/test_transaction_focus.csv")
-    X_train, y_train = split_data(df_train)
-    X_test, y_test = split_data(df_test)
+    X_train, y_train = split_data(df_train, data="transaction")
+    X_test, y_test = split_data(df_test, data="transaction")
 
 
-def split_data(df: pd.DataFrame) -> Set[pd.DataFrame]:
+def split_data(
+    df: pd.DataFrame,
+    data: str
+) -> Set[pd.DataFrame]:
     """
     Formulates df into a supervised learning (classification) problem.
+    Args:
+        df: target dataset.
+        data: type of data set, either transaction or identity.
     Returns:
         (X, y): feature set and label set, joint by Transaction ID.
         X @ (num_samples, num_features).
         y @ (num_samples, 2) with columns ["TransactionID", "isFraud"].
     """
-    df = features.clean_data(df)
+    if data not in ["transaction", "identity"]:
+        raise ValueError("Invalid dataset type")
+    if data == "transaction":
+        df = features.clean_categorical_transaction(df)
+    else:
+        raise NotImplementedError("Identity dataset is not supported yet.")
     X = df.drop(columns=["TransactionID"])
     y = df[["TransactionID", "isFraud"]]
     print("Positive samples: {}/{} ({:0.4f}%)".format(
