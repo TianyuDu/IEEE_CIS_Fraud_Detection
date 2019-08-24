@@ -23,7 +23,20 @@ CATEGORICAL_ID = ["DeviceType", "DeviceInfo"] + [
 ]
 
 
-def drop_inferior_features_transaction(
+def clean_transaction(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Cleans the transaction dataset.
+    """
+    # Copy dataframe to local, so that the original dataset is not modified.
+    # See /notes/copy_df.py for an example.
+    df = df.copy()
+    # Drop features with insufficient observations.
+    df = _drop_inferior_features_transaction(df, nan_threshold=0.3)
+    # Mask missing nan observations left.
+    df = _clean_categorical_transaction(df, fill="missing")
+    return df
+
+def _drop_inferior_features_transaction(
     df: pd.DataFrame,
     nan_threshold: float,
     target: str = "isFraud"
