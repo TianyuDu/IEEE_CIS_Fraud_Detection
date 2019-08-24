@@ -23,7 +23,44 @@ CATEGORICAL_ID = ["DeviceType", "DeviceInfo"] + [
 ]
 
 
-def clean_dat(df: pd.DataFrame) -> pd.DataFrame:
+def drop_inferior_features_transaction(
+    df: pd.DataFrame,
+    nan_threshold: float,
+    target: str = "isFraud"
+) -> pd.DataFrame:
+    """
+    Drop inferior features (e.g. those with too many nan values) in the
+    transaction dataset.
+    Args:
+        df:
+            The source dataframe.
+        nan_threshold:
+            If the percentage of nan observations in one feature
+            column was beyond his threshold, this column would be dropped.
+        target:
+            The name of target column, this column will be perserved.
+    """
+    print("Executing inferior feature removal...")
+    df = df.copy()
+    num_columns = df.shape[1]
+    if nan_threshold > 1.0 or nan_threshold < 0.0:
+        raise ValueError("nan_threshold should be in range [0, 1].")
+
+    for col in df.columns:
+        if col != target:  # Preserve the target column.
+            continue
+        nan_percentage = np.mean(df[col].isna())
+        if nan_percentage >= nan_threshold:
+            df = df.drop(columns=[col])
+    print("{}/{} features left with nan threshold {}".format(
+        len(df), num_columns, nan_threshold
+    ))
+    return df
+
+
+def clean_categorical_transaction(
+    df: pd.DataFram
+) -> pd.DataFrame:
     """
     Cleans the original dataset and formulates it so that
     it is compatible with most existing ML models.
