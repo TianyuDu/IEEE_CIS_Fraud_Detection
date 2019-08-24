@@ -7,23 +7,33 @@ ii. Spliting and concanating datasets.
 NOTE:
 Methods in this script do NOT create new columns (features).
 """
-from typing import Union
+from typing import Union, Set
 import numpy as np
 import pandas as pd
 
+import features
 
-def load_dataset(path: str) -> pd.DataFrame:
+
+def load_dataset(path: str = "./data") -> pd.DataFrame:
     """
-    Load the dataset from *_forcus.csv, rename the complete dataset
-    to *_focus.csv to load it.
+    Loads the dataset from *_forcus.csv.
+    NOTE: rename the complete dataset to *_focus.csv to load it.
     """
     df_train = pd.read_csv(path + "/train_transaction_focus.csv")
     df_test = pd.read_csv(path + "/test_transaction_focus.csv")
     X_train, y_train = split_data(df_train)
+    X_test, y_test = split_data(df_test)
 
 
-def split_data():
-    raise NotImplementedError
+def split_data(df: pd.DataFrame) -> Set[pd.DataFrame]:
+    """
+    Formulates df into a supervised learning (classification) problem.
+    Returns:
+        (X, y): feature set and label set, joint by Transaction ID.
+        X @ (num_samples, num_features).
+        y @ (num_samples, 2) with columns ["TransactionID", "isFraud"].
+    """
+    df = features.clean_data(df)
 
 
 def sample_dataset(
@@ -53,6 +63,7 @@ def sample_dataset(
     mask = df_trans.TransactionID.isin(selected_id)
     df_trans_sub = df_trans[mask].reset_index(drop=True)
     df_trans_sub.to_csv(path + "/{}_{}_focus.csv".format(data, "transaction"), index=False)
+
 
 if __name__ == "__main__":
     pass
