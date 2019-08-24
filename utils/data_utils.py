@@ -10,6 +10,7 @@ Methods in this script do NOT create new columns (features).
 from typing import Union, Set
 import numpy as np
 import pandas as pd
+import tensorflow as tf
 
 import features
 
@@ -19,11 +20,12 @@ def load_dataset(path: str = "./data") -> pd.DataFrame:
     Loads the dataset from *_forcus.csv.
     NOTE: rename the complete dataset to *_focus.csv to load it.
     """
+    # For now, consider transaction dataset only.
     df_train = pd.read_csv(path + "/train_transaction_focus.csv")
     df_test = pd.read_csv(path + "/test_transaction_focus.csv")
     X_train, y_train = split_data(df_train, data="transaction")
     X_test, y_test = split_data(df_test, data="transaction")
-
+    return (X_train, y_train), (X_test, y_test)
 
 def split_data(
     df: pd.DataFrame,
@@ -42,7 +44,7 @@ def split_data(
     if data not in ["transaction", "identity"]:
         raise ValueError("Invalid dataset type")
     if data == "transaction":
-        df = features.clean_categorical_transaction(df)
+        df = features.clean_transaction(df)
     else:
         raise NotImplementedError("Identity dataset is not supported yet.")
     X = df.drop(columns=["TransactionID"])
@@ -51,6 +53,9 @@ def split_data(
         np.sum(y.isFraud), len(y), np.mean(y.isFraud) * 100
     ))
     return X, y
+
+
+def create_tf_dataset(X, y) -> 
 
 
 def sample_dataset(
