@@ -3,3 +3,4 @@ data/sample_submission.csv
 data/test_identity.csv
 data/train_identity.csv
 data/train_transaction.csv
+.vscode/settings.json
