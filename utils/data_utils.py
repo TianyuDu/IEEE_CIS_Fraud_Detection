@@ -55,7 +55,8 @@ def split_data(
     return X, y
 
 
-def create_tf_dataset(X, y) -> 
+def train_input_fn(X, y, batch_size) -> "TensorSliceDataset":
+    raise NotImplementedError
 
 
 def sample_dataset(
