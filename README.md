@@ -1,8 +1,9 @@
 # IEEE CIS Fraud Detection Competition
 
-IEEE-CIS Fraud Detection Competition on Kaggle
+IEEE-CIS Fraud Detection Competition on Kaggle [page](https://www.kaggle.com/c/ieee-fraud-detection)
 
 ### Notes on Directory
+
 #### Utilities
 
 #### Models
