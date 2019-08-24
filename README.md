@@ -29,3 +29,7 @@ Use `./data/` to store training and test datasets. Files under `./data/` are add
 2. Use `tf.data` and `tf.feature_column` modules to manage dataset, and bridge preprocessed datasets and models ([feature columns](https://www.tensorflow.org/guide/feature_columns))
 3. Use `tf.estimators` as baseline models.
 4. [*Optional*] Use `tf.keras` and other lower level APIs for model customizations.
+
+#### Style Guide
+
+[Google Python Styleguide](http://google.github.io/styleguide/pyguide.html)
