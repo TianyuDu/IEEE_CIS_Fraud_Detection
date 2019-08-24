@@ -3,6 +3,7 @@ Aug. 21, 2019
 Use this script to store methods that:
 i. Manipulate coulumns of dataset, like creating new features.
 """
+import numpy as np
 import pandas as pd
 
 
@@ -33,7 +34,7 @@ def clean_transaction(df: pd.DataFrame) -> pd.DataFrame:
     # Drop features with insufficient observations.
     df = _drop_inferior_features_transaction(df, nan_threshold=0.3)
     # Mask missing nan observations left.
-    df = _clean_categorical_transaction(df, fill="missing")
+    df = _fill_nan(df, categorical_fill="missing", numerical_fill=np.mean)
     return df
 
 
@@ -72,15 +73,34 @@ def _drop_inferior_features_transaction(
     return df
 
 
-def clean_categorical_transaction(
-    df: pd.DataFram
+def _fill_nan(
+    df: pd.DataFrame,
+    categorical_fill: object = "missing",
+    numerical_fill: callable = np.mean
 ) -> pd.DataFrame:
     """
-    Cleans the original dataset and formulates it so that
-    it is compatible with most existing ML models.
+    Fills nan values in the dataset with provided rules.
+    """
+    df = df.copy()
+    for col in df.columns:
+        if col in CATEGORICAL_TRANS:
+            # Categorical columns.
+            df[col].fillna(categorical_fill, inplace=True)
+        else:
+            # Numerical columns.
+            df[col].fillna(numerical_fill(df[col]), inplace=True)
+    assert not np.any(df.isna())
+    return df
+
+
+def report_unique_values(df) -> None:
+    """
+    Just a helper function.
     """
     report = "{}: {} unique values."
     for col in CATEGORICAL_TRANS:
         try:
             print(report.format(col, len(set(df[col]))))
 
+if __name__ == "__main__":
+    pass
