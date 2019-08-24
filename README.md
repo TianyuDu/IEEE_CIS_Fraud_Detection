@@ -9,3 +9,5 @@ IEEE-CIS Fraud Detection Competition on Kaggle
 #### Datasets
 Use `./data/` to store training and test datasets. Files under `./data/` are added to `./.gitignore`.
 
+#### Conventions
+Directionaries are called `path` or `file_dir` and, by default, the path strings do *not* end with `/`.
