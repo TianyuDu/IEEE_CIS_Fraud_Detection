@@ -23,12 +23,12 @@ def load_dataset(path: str = "./data") -> pd.DataFrame:
     # For now, consider transaction dataset only.
     df_train = pd.read_csv(path + "/train_transaction_focus.csv")
     df_test = pd.read_csv(path + "/test_transaction_focus.csv")
-    X_train, y_train = split_data(df_train, data="transaction")
-    X_test, y_test = split_data(df_test, data="transaction")
+    X_train, y_train = _split_data(df_train, data="transaction")
+    X_test, y_test = _split_data(df_test, data="transaction")
     return (X_train, y_train), (X_test, y_test)
 
 
-def split_data(
+def _split_data(
     df: pd.DataFrame,
     data: str
 ) -> Set[pd.DataFrame]:
