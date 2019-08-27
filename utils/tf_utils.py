@@ -15,7 +15,7 @@ def generate_feature_columns(
     X: pd.DataFrame,
     # y: Union[pd.DataFrame, None],
     ID: str = "TransactionID"
-) -> Tuple[List[tf.feature_column]]:
+) -> List["tf.feature_column"]:
     """
     Generates the correspond feature columns from feature and target datasets.
     Args:
@@ -35,9 +35,14 @@ def generate_feature_columns(
         if col in features.CATEGORICAL_TRANS or col in features.CATEGORICAL_ID:
             # Categorical features:
             num_categories = len(set(X[col]))
-            identity_feature_column = tf.feature_column.categorical_column_with_identity(
+            # identity_feature_column = tf.feature_column.categorical_column_with_identity(
+            #     key=col,
+            #     num_buckets=num_categories
+            # )
+            identity_feature_column = tf.feature_column.categorical_column_with_vocabulary_list(
                 key=col,
-                num_buckets=num_categories
+                vocabulary_list=set(X[col]),
+                num_oov_buckets=num_categories
             )
             identity_feature_column = tf.feature_column.indicator_column(identity_feature_column)
             X_fea_col.append(identity_feature_column)
