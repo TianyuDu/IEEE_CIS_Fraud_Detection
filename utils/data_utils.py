@@ -48,7 +48,8 @@ def _split_data(
         df = features.clean_transaction(df)
     else:
         raise NotImplementedError("Identity dataset is not supported yet.")
-    X = df.drop(columns=["TransactionID"])
+    # X = df.drop(columns=["TransactionID"])
+    X = df.copy()
     y = df[["TransactionID", "isFraud"]]
     print("Positive samples: {}/{} ({:0.4f}%)".format(
         np.sum(y.isFraud), len(y), np.mean(y.isFraud) * 100
