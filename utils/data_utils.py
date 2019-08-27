@@ -12,7 +12,7 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 
-import features
+import utils.features as features
 
 
 def load_dataset(path: str = "./data") -> pd.DataFrame:
@@ -22,9 +22,10 @@ def load_dataset(path: str = "./data") -> pd.DataFrame:
     """
     # For now, consider transaction dataset only.
     df_train = pd.read_csv(path + "/train_transaction_focus.csv")
-    df_test = pd.read_csv(path + "/test_transaction_focus.csv")
+    # df_test = pd.read_csv(path + "/test_transaction_focus.csv")
     X_train, y_train = _split_data(df_train, data="transaction")
-    X_test, y_test = _split_data(df_test, data="transaction")
+    # X_test, y_test = _split_data(df_test, data="transaction")
+    X_test = y_test = None
     return (X_train, y_train), (X_test, y_test)
 
 
