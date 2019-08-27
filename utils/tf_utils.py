@@ -1,6 +1,11 @@
 """
 Utilities for tensorflow.
 """
+from typing import List, Tuple, Union
+
+import numpy as np
+import pandas as pd
+
 import tensorflow as tf
 
 from utils import features
@@ -8,7 +13,7 @@ from utils import features
 
 def generate_feature_columns(
     X: pd.DataFrame,
-    y: Union[pd.DataFrame, None],
+    # y: Union[pd.DataFrame, None],
     ID: str = "TransactionID"
 ) -> Tuple[List[tf.feature_column]]:
     """
@@ -20,8 +25,8 @@ def generate_feature_columns(
         (X_fea_col, y_fea_col): feature columns for features and target.
     """
     # ==== y ====
-    y_fea_col = tf.feature_column.categorical_column_with_identity(key="isFraud", num_buckets=2)
-    y_fea_col = tf.feature_column.indicator_column(y_fea_col)
+    # y_fea_col = tf.feature_column.categorical_column_with_identity(key="isFraud", num_buckets=2)
+    # y_fea_col = tf.feature_column.indicator_column(y_fea_col)
     # ==== X ====
     X_fea_col = []
     for col in X.columns:
@@ -40,4 +45,5 @@ def generate_feature_columns(
             # Numerical features:
             numerical_feature_column = tf.feature_column.numeric_column(key=col)
             X_fea_col.append(numerical_feature_column)
-    return X_fea_col, y_fea_col
+    # return X_fea_col, y_fea_col
+    return X_fea_col
