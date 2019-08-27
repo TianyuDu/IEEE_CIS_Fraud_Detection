@@ -101,6 +101,9 @@ def report_unique_values(df) -> None:
     for col in CATEGORICAL_TRANS:
         try:
             print(report.format(col, len(set(df[col]))))
+        except:
+            pass
+
 
 if __name__ == "__main__":
     pass
