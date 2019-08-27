@@ -34,7 +34,7 @@ def clean_transaction(df: pd.DataFrame) -> pd.DataFrame:
     # Drop features with insufficient observations.
     df = _drop_inferior_features_transaction(df, nan_threshold=0.3)
     # Mask missing nan observations left.
-    df = _fill_nan(df, categorical_fill="auto", numerical_fill=np.mean)
+    df = _fill_nan(df, categorical_fill="Missing", numerical_fill=np.mean)
     return df
 
 
@@ -75,7 +75,7 @@ def _drop_inferior_features_transaction(
 
 def _fill_nan(
     df: pd.DataFrame,
-    categorical_fill: object = "auto",
+    categorical_fill: object = "Missing",
     numerical_fill: callable = np.mean
 ) -> pd.DataFrame:
     """
@@ -85,17 +85,7 @@ def _fill_nan(
     for col in df.columns:
         if col in CATEGORICAL_TRANS:
             # Categorical columns.
-            # Fill the nans using indicators with the same datatype.
-            if categorical_fill == "auto":
-                if df[col].dtype == float:
-                    f = np.nan
-                elif df[col].dtype == int:
-                    f = -1
-                else:
-                    f = "missing"
-                df[col].fillna(f, inplace=True)
-            else:
-                raise NotImplementedError()
+            df[col].fillna(categorical_fill, inplace=True)
         else:
             # Numerical columns.
             df[col].fillna(numerical_fill(df[col]), inplace=True)
