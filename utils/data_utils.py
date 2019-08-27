@@ -12,7 +12,7 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 
-import utils.features as features
+import utils.feature_utils as feature_utils
 
 
 def load_dataset(path: str = "./data") -> pd.DataFrame:
@@ -46,7 +46,7 @@ def _split_data(
     if data not in ["transaction", "identity"]:
         raise ValueError("Invalid dataset type")
     if data == "transaction":
-        df = features.clean_transaction(df)
+        df = feature_utils.clean_transaction(df)
     else:
         raise NotImplementedError("Identity dataset is not supported yet.")
     # X = df.drop(columns=["TransactionID"])
