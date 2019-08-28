@@ -24,36 +24,23 @@ def load_dataset(path: str = "./data", reduce_ram: bool = False) -> pd.DataFrame
     # For now, consider transaction dataset only.
     # Checked: TransactionIDs are all unique.
     df_train = pd.read_csv(path + "/train_transaction_focus.csv", index_col="TransactionID")
+    df_test = pd.read_csv(path + "/test_transaction_focus.csv", index_col="TransactionID")
     if reduce_ram:
         df_train = ram_utils.reduce_mem_usage(df_train)  # Optional.
-    # df_test = pd.read_csv(path + "/test_transaction_focus.csv", index_col="TransactionID")
-    X_train, y_train = _split_data(df_train, data="transaction")
-    # X_test, y_test = _split_data(df_test, data="transaction")
-    X_test = y_test = None
-    return (X_train, y_train), (X_test, y_test)
+        df_test = ram_utils.reduce_mem_usage(df_test)
+    X_train, y_train = _split_data(df_train)
+    X_test = df_test
+    assert X_train.shape[1] == X_test.shape[1]
+
+    X_train, X_test = _clean_data(X_train, X_test)
+
+    return X_train, y_train, X_test
 
 
 def _split_data(
     df: pd.DataFrame,
     data: str
 ) -> Set[pd.DataFrame]:
-    """
-    Formulates df into a supervised learning (classification) problem.
-    Args:
-        df: target dataset.
-        data: type of data set, either transaction or identity.
-    Returns:
-        (X, y): feature set and label set, joint by Transaction ID.
-        X @ (num_samples, num_features).
-        y @ (num_samples, 2) with columns ["TransactionID", "isFraud"].
-    """
-    if data not in ["transaction", "identity"]:
-        raise ValueError("Invalid dataset type")
-    if data == "transaction":
-        df = feature_utils.clean_transaction(df)
-    else:
-        raise NotImplementedError("Identity dataset is not supported yet.")
-
     print("Creating feature and target datasets...")
     X = df.drop(columns=["isFraud"])
     y = df[["isFraud"]]
@@ -63,6 +50,10 @@ def _split_data(
     ))
     print("X.shape={}, y.shape={}".format(X.shape, y.shape))
     return X, y
+
+
+def _clean_data():
+    raise NotImplementedError()
 
 
 def train_input_fn(X, y, batch_size) -> "TensorSliceDataset":
