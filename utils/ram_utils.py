@@ -1,12 +1,14 @@
 """
 Utilities to reduce memory usage.
-Reference: https://www.kaggle.com/kabure/almost-complete-feature-engineering-ieee-data#Feature-Engineering
 """
 import numpy as np
 import pandas as pd
 
 
-def reduce_mem_usage(df, verbose=True):
+def reduce_mem_usage(df: pd.DataFrame, verbose: bool = True) -> pd.DataFrame:
+    """
+    Reference: https://www.kaggle.com/kabure/almost-complete-feature-engineering-ieee-data#Feature-Engineering
+    """
     numerics = ['int16', 'int32', 'int64', 'float16', 'float32', 'float64']
     start_mem = df.memory_usage().sum() / 1024**2
     for col in df.columns:
