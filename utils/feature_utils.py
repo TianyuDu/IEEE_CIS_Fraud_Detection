@@ -102,7 +102,8 @@ def PCA_reduction(
     cols: List[str],
     n_components: int,
     prefix: str = 'PCA_',
-    random_seed: int = 42
+    random_seed: int = 42,
+    keep: bool = False
 ) -> pd.DataFrame:
     """
     Substitutes given feature columns with their principal components.
