@@ -32,7 +32,7 @@ def load_dataset(path: str = "./data", reduce_ram: bool = False) -> pd.DataFrame
     X_test = df_test
     assert X_train.shape[1] == X_test.shape[1]
 
-    X_train, X_test = _clean_data(X_train, X_test)
+    X_train, X_test = feature_utils.clean_transaction_2(X_train, X_test)
 
     return X_train, y_train, X_test
 
@@ -49,22 +49,6 @@ def _split_data(
     ))
     print("X.shape={}, y.shape={}".format(X.shape, y.shape))
     return X, y
-
-
-def _clean_data(X_train, X_test):
-    # Concanate training and testing set.
-    train_index = X_train.index
-    test_index = X_test.index
-
-    merged = pd.concat([X_train, X_test], axis=0)
-    print("Merged dataset (train + test): {}".format(merged.shape))
-    cleaned = feature_utils.clean_transaction(merged)
-
-    X_train = cleaned.loc[train_index]
-    X_test = cleaned.loc[test_index]
-    print("Cleaned X_train.shape={}".format(X_train.shape))
-    print("Cleaned X_test.shape={}".format(X_test.shape))
-    return X_train, X_test
 
 
 def train_input_fn(X, y, batch_size) -> "TensorSliceDataset":
