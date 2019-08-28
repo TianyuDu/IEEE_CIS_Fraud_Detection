@@ -41,6 +41,7 @@ def clean_transaction(df: pd.DataFrame) -> pd.DataFrame:
     df = _drop_inferior_features_transaction(df, nan_threshold=0.3)
     # Mask missing nan observations left.
     df = _fill_nan(df, categorical_fill="Missing", numerical_fill=np.mean)
+    df = _convert_to_dummies(df)
     return df
 
 
