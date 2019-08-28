@@ -21,8 +21,8 @@ def load_dataset(path: str = "./data") -> pd.DataFrame:
     NOTE: rename the complete dataset to *_focus.csv to load it.
     """
     # For now, consider transaction dataset only.
-    df_train = pd.read_csv(path + "/train_transaction_focus.csv")
-    # df_test = pd.read_csv(path + "/test_transaction_focus.csv")
+    df_train = pd.read_csv(path + "/train_transaction_focus.csv", index_col="TransactionID")
+    # df_test = pd.read_csv(path + "/test_transaction_focus.csv", index_col="TransactionID")
     X_train, y_train = _split_data(df_train, data="transaction")
     # X_test, y_test = _split_data(df_test, data="transaction")
     X_test = y_test = None
