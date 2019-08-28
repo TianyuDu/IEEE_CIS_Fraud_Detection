@@ -13,6 +13,7 @@ import pandas as pd
 import tensorflow as tf
 
 import utils.feature_utils as feature_utils
+from utils import ram_utils
 
 
 def load_dataset(path: str = "./data") -> pd.DataFrame:
@@ -22,6 +23,7 @@ def load_dataset(path: str = "./data") -> pd.DataFrame:
     """
     # For now, consider transaction dataset only.
     df_train = pd.read_csv(path + "/train_transaction_focus.csv", index_col="TransactionID")
+    # df_train = ram_utils.reduce_mem_usage(df_train)  # Optional.
     # df_test = pd.read_csv(path + "/test_transaction_focus.csv", index_col="TransactionID")
     X_train, y_train = _split_data(df_train, data="transaction")
     # X_test, y_test = _split_data(df_test, data="transaction")
