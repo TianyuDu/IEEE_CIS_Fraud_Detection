@@ -51,8 +51,18 @@ def _split_data(
     return X, y
 
 
-def _clean_data():
-    raise NotImplementedError()
+def _clean_data(X_train, X_test):
+    # Concanate training and testing set.
+    train_index = X_train.index
+    test_index = X_test.index
+
+    merged = pd.concat([X_train, X_test], axis=0)
+    print("Merged dataset (train + test): {}".format(merged.shape))
+    cleaned = feature_utils.clean_transaction(merged)
+
+    X_train = merged.loc[train_index]
+    X_test = merged.loc[test_index]
+    return X_train, X_test
 
 
 def train_input_fn(X, y, batch_size) -> "TensorSliceDataset":
