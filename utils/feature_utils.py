@@ -123,16 +123,18 @@ def PCA_reduction(
     df = df.copy()
     pca = decomposition.PCA(n_components=n_components, random_state=random_seed)
 
-    principalComponents = pca.fit_transform(df[cols])
+    principal_components = pca.fit_transform(df[cols])
 
-    principalDf = pd.DataFrame(principalComponents)
+    principal_df = pd.DataFrame(principal_components)
+    if not keep:
+        df.drop(cols, axis=1, inplace=True)
 
-    df.drop(cols, axis=1, inplace=True)
-
-    principalDf.rename(columns=lambda x: str(prefix) + str(x), inplace=True)
+    principal_df.rename(columns=lambda x: str(prefix) + str(x), inplace=True)
 
     # Align index of principal components and the original dataset.
     principal_df = principal_components.set_index()
+
+    df = pd.concat([df, principal_df], axis=1)
 
     return df
 
