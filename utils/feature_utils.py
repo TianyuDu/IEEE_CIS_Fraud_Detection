@@ -3,8 +3,12 @@ Aug. 21, 2019
 Use this script to store methods that:
 i. Manipulate coulumns of dataset, like creating new features.
 """
+from typing import List
+
 import numpy as np
 import pandas as pd
+
+from sklearn import decomposition
 
 
 # Categorical columns in transaction dataset.
@@ -90,6 +94,32 @@ def _fill_nan(
             # Numerical columns.
             df[col].fillna(numerical_fill(df[col]), inplace=True)
     assert not np.any(df.isna())
+    return df
+
+
+def PCA_reduction(
+    df: pd.DataFrame,
+    cols: List[str],
+    n_components: int,
+    prefix: str = 'PCA_',
+    random_seed: int = 42
+) -> pd.DataFrame:
+    """
+    Substitutes given feature columns with their principal components.
+    """
+    df = df.copy()
+    pca = decomposition.PCA(n_components=n_components, random_state=random_seed)
+
+    principalComponents = pca.fit_transform(df[cols])
+
+    principalDf = pd.DataFrame(principalComponents)
+
+    df.drop(cols, axis=1, inplace=True)
+
+    principalDf.rename(columns=lambda x: str(prefix) + str(x), inplace=True)
+
+    df = pd.concat([df, principalDf], axis=1)
+
     return df
 
 
