@@ -7,3 +7,4 @@ data/train_transaction.csv
 utils/__pycache__/tf_utils.cpython-37.pyc
 utils/__pycache__/data_utils.cpython-37.pyc
 utils/__pycache__/features.cpython-37.pyc
+utils/__pycache__/ram_utils.cpython-37.pyc
