@@ -140,6 +140,41 @@ def PCA_reduction(
     return df
 
 
+def pca_and_cluster(
+    df: pd.DataFrame,
+    columns: str,
+    n_components: Union[int, None],
+    n_clusters: Union[int, None],
+    keep: bool = False
+) -> pd.DataFrame:
+    """
+    Dimension reduction.
+    This method firstly run PCA on selected feature columns and then run k-means.
+    Outcome:
+        Original df size: (n, k)
+        Output df size: (n, `n_components` + 1) where the extra feature column is the cluster index from kmean.
+    """
+    col_id = columns.upper()
+    print("Executing dimension reduction (pca + kmean) on {}* features...".format(col_id))
+    selected_columns = [x for x in df.columns if x.startswith(col_id)]
+    print("Number of corresponding columns before processing: {}".format(len(selected_columns)))
+    for col in selected_columns:
+        # Fill Nans with -2. Tentative.
+        df[col].fillna((df[col].min() - 2), inplace=True)
+        df[col] = preprocessing.minmax_scale(df[col], feature_range=(0, 1))
+    df = PCA_reduction(df, selected_columns, prefix="PCA_{}_".format(col_id), n_components=n_components, keep=keep)
+
+    # Apply kmeans on PCA columns
+    s = "PCA_{}_".format(col_id)
+    pca_columns = [x for x in df.columns if x.startswith(s)]
+    kmean = cluster.KMeans(n_clusters=n_clusters)
+    kmean_fit = kmean.fit(df[pca_columns])
+    df["cluster_{}".format(col_id)] = kmean_fit.predict(df[pca_columns])
+    # predicted_indices = kmean_fit.predict(df[pca_columns])
+    # df["cluster_{}".format(col_id)] = kmean_fit.cluster_centers_[predicted_indices]
+    return df
+
+
 def convert_to_dummies(df: pd.DataFrame) -> pd.DataFrame:
     """
     Converts categorical variables to dummies.
