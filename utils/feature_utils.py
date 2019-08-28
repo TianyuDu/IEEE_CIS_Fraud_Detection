@@ -131,7 +131,8 @@ def PCA_reduction(
 
     principalDf.rename(columns=lambda x: str(prefix) + str(x), inplace=True)
 
-    df = pd.concat([df, principalDf], axis=1)
+    # Align index of principal components and the original dataset.
+    principal_df = principal_components.set_index()
 
     return df
 
