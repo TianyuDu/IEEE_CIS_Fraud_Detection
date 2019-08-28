@@ -45,6 +45,25 @@ def clean_transaction(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def clean_transaction_2(X_train, X_test):
+    """
+    Cleans the transaction dataset, supporting two datasets.
+    """
+    # Concanate training and testing set.
+    train_index = X_train.index
+    test_index = X_test.index
+
+    merged = pd.concat([X_train, X_test], axis=0)
+    print("Merged dataset (train + test): {}".format(merged.shape))
+    cleaned = clean_transaction(merged)
+
+    X_train = cleaned.loc[train_index]
+    X_test = cleaned.loc[test_index]
+    print("Cleaned X_train.shape={}".format(X_train.shape))
+    print("Cleaned X_test.shape={}".format(X_test.shape))
+    return X_train, X_test
+
+
 def _drop_inferior_features_transaction(
     df: pd.DataFrame,
     nan_threshold: float,
