@@ -62,6 +62,8 @@ def _clean_data(X_train, X_test):
 
     X_train = cleaned.loc[train_index]
     X_test = cleaned.loc[test_index]
+    print("Cleaned X_train.shape={}".format(X_train.shape))
+    print("Cleaned X_test.shape={}".format(X_test.shape))
     return X_train, X_test
 
 
