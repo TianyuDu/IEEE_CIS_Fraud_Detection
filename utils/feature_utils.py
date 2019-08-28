@@ -123,6 +123,25 @@ def PCA_reduction(
     return df
 
 
+def convert_to_dummies(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Converts categorical variables to dummies.
+    """
+    df = df.copy()
+    print("Raw dataset shape = {}".format(df.shape))
+    print("Creating one hot encoded categories...")
+    for col in df.columns:
+        if col in CATEGORICAL_TRANS and col != "isFraud":
+            # Convert to categorical type, may not be necessary.
+            df[col] = pd.Categorical(df[col])
+            one_hot_encoded = pd.get_dummies(df[col], prefix=col)
+            df = df.drop(columns=[col])  # remove the original categorical column.
+            # Add the one-hot-encoded column.
+            df = pd.concat([df, one_hot_encoded], axis=1)
+    print("One-hot-encoded dataset shape = {}".format(df.shape))
+    return df
+
+
 def report_unique_values(df) -> None:
     """
     Just a helper function.
