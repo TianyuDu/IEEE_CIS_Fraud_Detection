@@ -178,7 +178,7 @@ def pca_and_cluster(
     return df
 
 
-def convert_to_dummies(df: pd.DataFrame) -> pd.DataFrame:
+def _convert_to_dummies(df: pd.DataFrame) -> pd.DataFrame:
     """
     Converts categorical variables to dummies.
     """
