@@ -3,12 +3,14 @@ Aug. 21, 2019
 Use this script to store methods that:
 i. Manipulate coulumns of dataset, like creating new features.
 """
-from typing import List
+from typing import List, Union
 
 import numpy as np
 import pandas as pd
 
 from sklearn import decomposition
+from sklearn import preprocessing
+from sklearn import cluster
 
 
 # Categorical columns in transaction dataset.
@@ -133,7 +135,7 @@ def PCA_reduction(
     principal_df.rename(columns=lambda x: str(prefix) + str(x), inplace=True)
 
     # Align index of principal components and the original dataset.
-    principal_df = principal_components.set_index()
+    principal_df = principal_df.set_index(df.index)
 
     df = pd.concat([df, principal_df], axis=1)
 
