@@ -22,6 +22,7 @@ def load_dataset(path: str = "./data") -> pd.DataFrame:
     NOTE: rename the complete dataset to *_focus.csv to load it.
     """
     # For now, consider transaction dataset only.
+    # Checked: TransactionIDs are all unique.
     df_train = pd.read_csv(path + "/train_transaction_focus.csv", index_col="TransactionID")
     # df_train = ram_utils.reduce_mem_usage(df_train)  # Optional.
     # df_test = pd.read_csv(path + "/test_transaction_focus.csv", index_col="TransactionID")
