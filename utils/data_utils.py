@@ -60,8 +60,8 @@ def _clean_data(X_train, X_test):
     print("Merged dataset (train + test): {}".format(merged.shape))
     cleaned = feature_utils.clean_transaction(merged)
 
-    X_train = merged.loc[train_index]
-    X_test = merged.loc[test_index]
+    X_train = cleaned.loc[train_index]
+    X_test = cleaned.loc[test_index]
     return X_train, X_test
 
 
