@@ -106,6 +106,19 @@ def PCA_reduction(
 ) -> pd.DataFrame:
     """
     Substitutes given feature columns with their principal components.
+    Args:
+        df:
+            Dataframe to work on.
+        cols:
+            Feature columns to apply PCA.
+        n_components:
+            Number of principal components to be generated.
+        prefix:
+            Name of principal component feature columns.
+        keep:
+            Whether to keep raw feature columns, use True only for debugging purpose.
+    Returns:
+        Modified copy of df.
     """
     df = df.copy()
     pca = decomposition.PCA(n_components=n_components, random_state=random_seed)
