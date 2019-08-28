@@ -52,12 +52,15 @@ def _split_data(
         df = feature_utils.clean_transaction(df)
     else:
         raise NotImplementedError("Identity dataset is not supported yet.")
-    # X = df.drop(columns=["TransactionID"])
-    X = df.copy()
-    y = df[["TransactionID", "isFraud"]]
+
+    print("Creating feature and target datasets...")
+    X = df.drop(columns=["isFraud"])
+    y = df[["isFraud"]]
+
     print("Positive samples: {}/{} ({:0.4f}%)".format(
         np.sum(y.isFraud), len(y), np.mean(y.isFraud) * 100
     ))
+    print("X.shape={}, y.shape={}".format(X.shape, y.shape))
     return X, y
 
 
