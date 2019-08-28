@@ -38,8 +38,7 @@ def load_dataset(path: str = "./data", reduce_ram: bool = False) -> pd.DataFrame
 
 
 def _split_data(
-    df: pd.DataFrame,
-    data: str
+    df: pd.DataFrame
 ) -> Set[pd.DataFrame]:
     print("Creating feature and target datasets...")
     X = df.drop(columns=["isFraud"])
