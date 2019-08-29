@@ -24,6 +24,11 @@ CATEGORICAL_TRANS = sum(
     ["ProductCD"]
 )
 
+# How many categories left after pruning categorical variables.
+PRUNE_DICT_TRANS = {
+    "P_emaildomain": 10,
+}
+
 # Categorical columns in identity dataset.
 CATEGORICAL_ID = ["DeviceType", "DeviceInfo"] + [
     "id_" + str(i) for i in range(12, 39)
