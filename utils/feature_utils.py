@@ -41,7 +41,7 @@ def clean_transaction(df: pd.DataFrame) -> pd.DataFrame:
     df = _drop_inferior_features_transaction(df, nan_threshold=0.3)
     # Mask missing nan observations left.
     df = _fill_nan(df, categorical_fill="Missing", numerical_fill=np.mean)
-    df = _cap_categories(df)
+    df = _prune_categories(df)
     df = _convert_to_dummies(df)
     return df
 
@@ -195,6 +195,19 @@ def pca_and_cluster(
     df["cluster_{}".format(col_id)] = kmean_fit.predict(df[pca_columns])
     # predicted_indices = kmean_fit.predict(df[pca_columns])
     # df["cluster_{}".format(col_id)] = kmean_fit.cluster_centers_[predicted_indices]
+    return df
+
+
+def _prune_categories(
+    df: pd.DataFrame,
+    fill: object = "Other"
+) -> pd.DataFrame:
+    """
+    Caps some categories variables.
+    """
+    df = df.copy()
+    # TODO: consider how many categories left for each
+    # categorical variable.
     return df
 
 
