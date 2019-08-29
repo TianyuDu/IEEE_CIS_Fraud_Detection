@@ -47,7 +47,7 @@ def clean_transaction(df: pd.DataFrame) -> pd.DataFrame:
     df = _drop_inferior_features_transaction(df, nan_threshold=0.3)
     # Mask missing nan observations left.
     df = _fill_nan(df, categorical_fill="Missing", numerical_fill=np.mean)
-    df = _prune_categories(df)
+    df = _prune_categories(df, prune_dict=PRUNE_DICT_TRANS)
     df = _convert_to_dummies(df)
     return df
 
@@ -206,14 +206,24 @@ def pca_and_cluster(
 
 def _prune_categories(
     df: pd.DataFrame,
-    fill: object = "Other"
+    prune_dict: dict,
+    fill: object = "Other",
 ) -> pd.DataFrame:
     """
     Caps some categories variables.
     """
     df = df.copy()
-    # TODO: consider how many categories left for each
-    # categorical variable.
+    for col in df.columns:
+        if col in CATEGORICAL_TRANS:
+            n = prune_dict[col]
+            if n == -1:
+                continue
+            # Get most frequent:
+            major_categories = list(
+                df[col].value_counts()[:n].keys()
+            )
+            mask = df[col].isin(major_categories)
+            df[col][~ mask] = fill
     return df
 
 
