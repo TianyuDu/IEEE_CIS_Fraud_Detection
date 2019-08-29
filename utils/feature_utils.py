@@ -25,6 +25,7 @@ CATEGORICAL_TRANS = sum(
 )
 
 # How many categories left after pruning categorical variables.
+# TODO: this should be determined from EDA.
 PRUNE_DICT_TRANS = {
     "P_emaildomain": 10,
 }
