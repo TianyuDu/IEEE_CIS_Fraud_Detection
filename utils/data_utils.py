@@ -93,13 +93,13 @@ def sample_dataset(
     df_trans_sub.to_csv(path + "/{}_{}_focus.csv".format(data, "transaction"), index=False)
 
 
-def write_submission(
+def generate_submission(
     prob: Union[np.ndarray, pd.DataFrame],
     dest_path: str = "./submission.csv",
     src_path: str = "./data"
 ) -> None:
     """
-    Writes predicted probabilities for submission.
+    Generates predicted probabilities for submission.
     """
     sample_submission = pd.read_csv(
         src_path + "/sample_submission.csv",
