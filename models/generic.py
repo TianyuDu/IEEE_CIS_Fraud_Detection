@@ -1,7 +1,7 @@
 """
 Methods for a generic type of model.
 """
-from typing import Union, Optional, Callable
+from typing import Union, Optional, Callable, Dict
 from pprint import pprint
 
 import numpy as np
@@ -36,7 +36,7 @@ def predict(
     X_test: Union[pd.DataFrame, np.ndarray] = None,
     prediction_path: Optional[str] = None,
     estimate_error: bool = False
-) -> Optional[pd.ndarray]:
+) -> Optional[np.ndarray]:
     """
     Generates the classification result for the given dataset.
     If a path of destination is given, this methods will write
