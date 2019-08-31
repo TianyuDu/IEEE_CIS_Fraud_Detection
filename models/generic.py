@@ -46,6 +46,10 @@ def predict(
             The path used to store prediction made, should end
             with *.csv.
         estimate_error:
-            If error estimation is required, the model will 
+            If error estimation is required, the model will firstly
+            draw 50%-50% split on the training set (train vs dev)
+            and estimate the performance on the dev set. Then,
+            the model is fit again on the whole training set, and
+            predicted propensities of test set are computed.
     """
     # Check and report datasets:
