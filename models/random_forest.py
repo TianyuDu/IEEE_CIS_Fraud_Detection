@@ -1,15 +1,23 @@
 """
 Random forest.
 """
+import sys
+
+from typing import Union, Optional
+import argparse
+
 import numpy as np
 import pandas as pd
 
 from sklearn.ensemble import RandomForestClassifier
 
+sys.path.append(".")
+sys.path.append("..")
+from utils import data_utils
 from models import generic
 
 PARAMS = {'max_features': 'log2', 'criterion': 'gini',
-          'n_estimators': 1900, 'max_depth': 64}
+          'n_estimators': 300, 'max_depth': 64}
 
 # **** add configuration here ****
 PARAM_SCOPE = {
@@ -28,11 +36,10 @@ def predict(
     X_test: Union[pd.DataFrame, np.ndarray] = None,
     prediction_path: Optional[str] = None,
     estimate_error: bool = False
-) -> Optional[pd.ndarray]:
+) -> Optional[np.ndarray]:
     r = generic.predict(
         build_model=RandomForestClassifier,
         params=PARAMS,
-        score=SCORE,
         X_train=X_train,
         y_train=y_train,
         X_test=X_test,
@@ -56,13 +63,19 @@ if __name__ == "__main__":
         "--logdir", type=str, default=None
     )
     args = parser.parse_args()
-
-    # TODO: add X_train, y_..., X_... = utils.get_data()...
+    # TODO: add args.esterr # estimate error.
+    X_train, y_train, X_test = data_utils.load_dataset(path="./data")
     if args.task.lower() in ["predict", "p"]:
         print("Execute: {}".format(args.task))
         if args.logdir is None:
             print("No log directory is provided, no submission file will be generated.")
-        predict(...)
+        predict(
+            X_train=X_train,
+            y_train=y_train,
+            X_test=X_test,
+            prediction_path="./test.csv",  # TODO: change this.
+            estimate_error=True
+        )
     elif args.task.lower() in ["search", "s"]:
         print("Execute: {}".format(args.task))
         print("Execute task: {}".format(args.task))
