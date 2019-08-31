@@ -215,6 +215,8 @@ def _prune_categories(
     df = df.copy()
     for col in df.columns:
         if col in CATEGORICAL_TRANS:
+            if col not in prune_dict.keys():
+                continue
             n = prune_dict[col]
             if n == -1:
                 continue
