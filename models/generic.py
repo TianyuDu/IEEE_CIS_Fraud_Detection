@@ -6,6 +6,7 @@ from typing import Union, Optional, Callable
 import numpy as np
 import pandas as pd
 
+from sklearn import metrics
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
 
@@ -62,22 +63,41 @@ def predict(
     """
     # Check and report datasets:
     # TODO: implement.
+    raise NotImplementedError
+    # Save raw data:
+    raw_X_train = X_train.copy()
+    raw_y_train = y_train.copy()
+    raw_X_test = X_test.copy()
     # Error estimation phase:
     print("Phase 1: Estimate Performance by 50%-50% CV...")
     if estimate_error:
-        raise NotImplementedError
-        # TODO: implement this.
+        X_train, X_dev, y_train, y_dev = train_test_split(
+            X_train, y_train, test_size=0.5, random_state=42
+        )
+        model = build_model(
+            **params,
+            random_state=42,
+            n_jobs=-1,
+            verbose=1
+        )
+        model.fit(X_train.values, y_train.values)
+        pred_dev = model.predict_proba(X_dev)[:, 1]
+        report_preformance(true=y_dev, prob=pred_dev)
+        del model
     else:
         print("Skipped.")
 
     print("Phase 2")
-    del model
     model = build_model(
         **params,
         random_state=42,
         n_jobs=-1,
         verbose=1
     )
+    # Retrive the raw datasets, may be unnecessary.
+    X_train = raw_X_train.copy()
+    y_train = raw_y_train.copy()
+    X_test = raw_X_test.copy()
 
     model.fit(X_train.values, y_train.values)
     print("Predicting on the test set ...")
@@ -94,6 +114,7 @@ def predict(
             dest_path=prediction_path,
             src_path="./data"
         )
+        return None
 
 
 def report_preformance(true, prob) -> None:
