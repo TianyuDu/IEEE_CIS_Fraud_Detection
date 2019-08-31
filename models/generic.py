@@ -31,7 +31,6 @@ SCORE = "neg_log_loss"
 def predict(
     build_model: Callable,
     params: Dict[str, object],
-    score: str = "neg_log_loss",
     X_train: Union[pd.DataFrame, np.ndarray] = None,
     y_train: Union[pd.DataFrame, np.ndarray] = None,
     X_test: Union[pd.DataFrame, np.ndarray] = None,
@@ -48,8 +47,6 @@ def predict(
             A method to build the model, like RandomForestClassifier.
         params:
             Parameter dictionary.
-        score:
-            A measure for the performance of model.
         X_train, y_train, X_test:
             Datasets.
         prediction_path:
