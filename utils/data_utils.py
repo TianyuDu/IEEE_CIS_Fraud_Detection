@@ -16,7 +16,10 @@ import utils.feature_utils as feature_utils
 from utils import ram_utils
 
 
-def load_dataset(path: str = "./data", reduce_ram: bool = False) -> pd.DataFrame:
+def load_dataset(
+    path: str = "./data",
+    reduce_ram: bool = False
+) -> Set[pd.DataFrame]:
     """
     Loads the dataset from *_forcus.csv.
     NOTE: rename the complete dataset to *_focus.csv to load it.
