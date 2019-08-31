@@ -110,6 +110,6 @@ def predict(
 
 def report_preformance(true, prob) -> None:
     log_loss = metrics.log_loss(y_true=true, y_pred=prob)
-    auc = metrics.roc_auc_score(y_true=true, y_pred=prob)
+    auc = metrics.roc_auc_score(y_true=true, y_score=prob)
     s = "Log Loss: {:0.6f}, AUC ROC: {:0.6f}"
     print(s.format(log_loss, auc))
