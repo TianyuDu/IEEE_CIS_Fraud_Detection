@@ -2,6 +2,7 @@
 Methods for a generic type of model.
 """
 from typing import Union, Optional, Callable
+from pprint import pprint
 
 import numpy as np
 import pandas as pd
@@ -62,8 +63,15 @@ def predict(
             predicted propensities of test set are computed.
     """
     # Check and report datasets:
-    # TODO: implement.
-    raise NotImplementedError
+    if X_train.shape[0] != y_train.shape[0]:
+        raise ValueError
+    if X_train.shape[1] != X_test.shape[1]:
+        raise ValueError
+    print("Datasets:")
+    s = "X_train@{}, y_train@{}, X_test@{}"
+    print(s.format(X_train.shape, y_train.shape, X_test.shape))
+    print("Model Parameters:")
+    pprint(params)
     # Save raw data:
     raw_X_train = X_train.copy()
     raw_y_train = y_train.copy()
