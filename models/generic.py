@@ -1,12 +1,11 @@
 """
-Random Forests
+Methods for a generic type of model.
 """
 from typing import Union, Optional, Callable
 
 import numpy as np
 import pandas as pd
 
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
 
@@ -27,10 +26,10 @@ SCORE = "neg_log_loss"
 def predict(
     build_model: Callable,
     params: Dict[str, object],
-    score: str,
-    X_train: Union[pd.DataFrame, np.ndarray],
-    y_train: Union[pd.DataFrame, np.ndarray],
-    X_test: Union[pd.DataFrame, np.ndarray],
+    score: str = "neg_log_loss",
+    X_train: Union[pd.DataFrame, np.ndarray] = None,
+    y_train: Union[pd.DataFrame, np.ndarray] = None,
+    X_test: Union[pd.DataFrame, np.ndarray] = None,
     prediction_path: Optional[str] = None,
     estimate_error: bool = False
 ) -> Optional[pd.ndarray]:
@@ -40,6 +39,12 @@ def predict(
     classification prediction to the destination file. Otherwise,
     the prediction on test set is returned.
     Args:
+        build_model:
+            A method to build the model, like RandomForestClassifier.
+        params:
+            Parameter dictionary.
+        score:
+            A measure for the performance of model.
         X_train, y_train, X_test:
             Datasets.
         prediction_path:
