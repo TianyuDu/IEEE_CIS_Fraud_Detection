@@ -12,3 +12,4 @@ utils/__pycache__/feature_utils.cpython-37.pyc
 feature/__pycache__/feature_engineering.cpython-37.pyc
 submissions/*
 submissions/random_uniform.csv
+models/__pycache__/generic.cpython-37.pyc
