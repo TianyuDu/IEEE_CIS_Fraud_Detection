@@ -93,5 +93,27 @@ def sample_dataset(
     df_trans_sub.to_csv(path + "/{}_{}_focus.csv".format(data, "transaction"), index=False)
 
 
-if __name__ == "__main__":
-    pass
+def write_submission(
+    prob: Union[np.ndarray, pd.DataFrame],
+    dest_path: str = "./submission.csv",
+    src_path: str = "./data"
+) -> None:
+    """
+    Writes predicted probabilities for submission.
+    """
+    sample_submission = pd.read_csv(
+        src_path + "/sample_submission.csv",
+        index_col="TransactionID"
+    )
+
+    if type(prob) is pd.DataFrame:
+        assert np.all(
+            sample_submission.index == prob.index
+        )
+        holder = prob.copy()
+    elif type(prob) is np.ndarray:
+        assert prob.shape[0] == len(sample_submission)
+        holder = sample_submission.copy()
+        holder["isFraud"] = prob
+
+    holder.to_csv(dest_path, header=True, index=True)
