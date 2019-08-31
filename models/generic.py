@@ -9,6 +9,9 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
 
+from utils import data_utils
+
+
 PARAMS = {'max_features': 'log2', 'criterion': 'gini',
           'n_estimators': 1900, 'max_depth': 64}
 
@@ -58,3 +61,36 @@ def predict(
             predicted propensities of test set are computed.
     """
     # Check and report datasets:
+    # TODO: implement.
+    # Error estimation phase:
+    print("Phase 1: Estimate Performance by 50%-50% CV...")
+    if estimate_error:
+        raise NotImplementedError
+        # TODO: implement this.
+    else:
+        print("Skipped.")
+
+    print("Phase 2")
+    del model
+    model = build_model(
+        **params,
+        random_state=42,
+        n_jobs=-1,
+        verbose=1
+    )
+
+    model.fit(X_train.values, y_train.values)
+    print("Predicting on the test set ...")
+    pred_test = model.predict_proba(X_test.values)
+
+    # Extract the probability for class == 1.
+    pred_test = pred_test[:, 1]
+    if prediction_path is None:
+        return pred_test
+    else:
+        print("Write submission file to {}".format(prediction_path))
+        data_utils.generate_submission(
+            prob=pred_test,
+            dest_path=prediction_path,
+            src_path="./data"
+        )
