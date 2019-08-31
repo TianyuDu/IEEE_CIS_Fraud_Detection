@@ -16,6 +16,14 @@ import utils.feature_utils as feature_utils
 from utils import ram_utils
 
 
+def quick_draw_dataset(
+    path: str = "./data"
+) -> Set[pd.DataFrame]:
+    """
+    
+    """
+    raise NotImplementedError
+
 def load_dataset(
     path: str = "./data",
     reduce_ram: bool = False
