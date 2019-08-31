@@ -23,9 +23,17 @@ def draw_feature_set(
     ...
     """
     raise NotImplementedError
-    
+
+
+def generate_feature_set(
+    src_path: str = "./data",
+    dest_path: str = "./data"
+) -> None:
+    """
+    ...
     """
     raise NotImplementedError
+
 
 def load_dataset(
     path: str = "./data",
