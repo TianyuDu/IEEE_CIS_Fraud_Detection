@@ -16,10 +16,13 @@ import utils.feature_utils as feature_utils
 from utils import ram_utils
 
 
-def quick_draw_dataset(
+def draw_feature_set(
     path: str = "./data"
 ) -> Set[pd.DataFrame]:
     """
+    ...
+    """
+    raise NotImplementedError
     
     """
     raise NotImplementedError
