@@ -41,3 +41,30 @@ def predict(
     )
     if prediction_path is not None:
         return r
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-t", "--task", type=str, default=None
+    )
+    parser.add_argument(
+        "--logdir", type=str, default=None
+    )
+    args = parser.parse_args()
+
+    # TODO: add X_train, y_..., X_... = utils.get_data()...
+    if args.task.lower() in ["predict", "p"]:
+        print("Execute: {}".format(args.task))
+        if args.logdir is None:
+            print("No log directory is provided, no submission file will be generated.")
+        predict(...)
+    elif args.task.lower() in ["search", "s"]:
+        print("Execute: {}".format(args.task))
+        print("Execute task: {}".format(args.task))
+        if args.logdir is None:
+            print("No log directory is provided, best model chosen will only be printed.")
+        grid_search(...)
+    else:
+        raise SyntaxError(
+            "Task provided not avaiable: {}".format(args.task))
