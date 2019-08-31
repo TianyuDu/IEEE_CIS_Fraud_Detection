@@ -43,6 +43,10 @@ def predict(
         return r
 
 
+def grid_search():
+    raise NotImplementedError
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
