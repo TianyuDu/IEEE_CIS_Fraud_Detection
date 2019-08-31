@@ -16,7 +16,7 @@ import utils.feature_utils as feature_utils
 from utils import ram_utils
 
 
-def draw_feature_set(
+def load_feature_set(
     path: str = "./data"
 ) -> Set[pd.DataFrame]:
     """
