@@ -14,20 +14,6 @@ from sklearn.model_selection import GridSearchCV
 from utils import data_utils
 
 
-PARAMS = {'max_features': 'log2', 'criterion': 'gini',
-          'n_estimators': 1900, 'max_depth': 64}
-
-# **** add configuration here ****
-PARAM_SCOPE = {
-    "max_depth": [None] + [2 ** x for x in range(5, 11)],
-    "n_estimators": [100 * x for x in range(1, 20, 2)],
-    "criterion": ["entropy", "gini"],
-    "max_features": ["auto", "sqrt", "log2"],
-}
-
-SCORE = "neg_log_loss"
-
-
 def predict(
     build_model: Callable,
     params: Dict[str, object],
