@@ -94,3 +94,10 @@ def predict(
             dest_path=prediction_path,
             src_path="./data"
         )
+
+
+def report_preformance(true, prob) -> None:
+    log_loss = metrics.log_loss(y_true=true, y_pred=prob)
+    auc = metrics.accuracy_score(y_true=true, y_pred=prob)
+    s = "Log Loss: {:0.6f}, AUC ROC: {:0.6f}"
+    print(s.format(log_loss, auc))
