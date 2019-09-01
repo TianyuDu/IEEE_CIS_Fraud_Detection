@@ -48,7 +48,7 @@ def clean_transaction(df: pd.DataFrame) -> pd.DataFrame:
     # Mask missing nan observations left.
     df = _fill_nan(df, categorical_fill="Missing", numerical_fill=-1)
     df = _prune_categories(df, prune_dict=PRUNE_DICT_TRANS)
-    df = _convert_to_dummies(df)
+    df = _convert_to_dummies(df, method="pandas")
     return df
 
 
@@ -230,15 +230,36 @@ def _prune_categories(
     return df
 
 
-def _convert_to_dummies(df: pd.DataFrame) -> pd.DataFrame:
+def _convert_to_dummies(
+    df: pd.DataFrame,
+    method: Union["sklearn", "pandas"]
+) -> pd.DataFrame:
+    if method == "sklearn":
+        return _convert_to_dummies_sklearn(df)
+    elif method == "pandas":
+        return _convert_to_dummies_pandas(df)
+    else:
+        raise ValueError("Invalid method.")
+
+
+def _convert_to_dummies_sklearn(df: pd.DataFrame) -> pd.DataFrame:
     """
-    Converts categorical variables to dummies.
+    Converts categorical variables to dummies, implemented using sklearn.
+    """
+    raise NotImplementedError
+
+
+def _convert_to_dummies_pandas(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Converts categorical variables to dummies, implemented using pandas.
+    NOTE: this method is slower than the sklearn
     """
     df = df.copy()
     print("Raw dataset shape = {}".format(df.shape))
     print("Creating one hot encoded categories...")
     for col in df.columns:
-        if col in CATEGORICAL_TRANS and col != "isFraud":
+        if col in CATEGORICAL_TRANS and col != "isFraud" and not col.startswith("card"):
+            print("Handling category: {}".format(col))
             # Convert to categorical type, may not be necessary.
             df[col] = pd.Categorical(df[col])
             one_hot_encoded = pd.get_dummies(df[col], prefix=col)
