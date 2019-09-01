@@ -17,12 +17,27 @@ from utils import mem_utils
 
 
 def load_feature_set(
-    path: str = "./data"
+    path: str = "./data",
+    df_with_features: str = "df_with_features.csv"
 ) -> Set[pd.DataFrame]:
     """
     ...
     """
-    raise NotImplementedError
+    df = pd.read_csv(path + "/" + df_with_features, index_col="TransactionID")
+    print("Featured dataset loaded @ {}".format(df.shape))
+    raw_train = pd.read_csv(path + "/train_transaction.csv", index_col="TransactionID")
+    raw_test = pd.read_csv(path + "/test_transaction.csv", index_col="TransactionID")
+
+    df_train = df.loc[raw_train.index]
+    df_test = df.loc[raw_test.index]
+    assert df_train.shape[0] + df_test.shape[0] == df.shape[0]
+
+    X_train = df_train.drop(columns=["isFraud"])
+    y_train = df_train["isFraud"]
+    X_test = df_test.drop(columns=["isFraud"])
+    print("Extracted: X_train @ {}, X_test @ {}".format(X_train.shape, X_test.shape))
+
+    return X_train, y_train, X_test
 
 
 def generate_feature_set(
