@@ -21,7 +21,7 @@ def load_feature_set(
     df_with_features: str = "df_with_features.csv"
 ) -> Set[pd.DataFrame]:
     """
-    ...
+    Load pre-made dataset with features.
     """
     df = pd.read_csv(path + "/" + df_with_features, index_col="TransactionID")
     print("Featured dataset loaded @ {}".format(df.shape))
