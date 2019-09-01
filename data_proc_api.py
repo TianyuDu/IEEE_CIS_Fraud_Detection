@@ -10,7 +10,7 @@ from feature import feature_engineering
 
 if __name__ == "__main__":
     # Load the dataset with nan filled.
-    X_train, y_train, X_test = data_utils.load_dataset(path="./data")
+    X_train, y_train, X_test = data_utils.load_dataset(path="./data", reduce_mem=True)
     s = "Datasets received: X_train.shape={}; y_train.shape={}, X_test.shape={}"
     print(s.format(X_train.shape, y_train.shape, X_test.shape))
 
