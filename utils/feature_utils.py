@@ -46,7 +46,7 @@ def clean_transaction(df: pd.DataFrame) -> pd.DataFrame:
     # Drop features with insufficient observations.
     df = _drop_inferior_features_transaction(df, nan_threshold=0.3)
     # Mask missing nan observations left.
-    df = _fill_nan(df, categorical_fill="Missing", numerical_fill=np.mean)
+    df = _fill_nan(df, categorical_fill="Missing", numerical_fill=-1)
     df = _prune_categories(df, prune_dict=PRUNE_DICT_TRANS)
     df = _convert_to_dummies(df)
     return df
@@ -109,7 +109,7 @@ def _drop_inferior_features_transaction(
 def _fill_nan(
     df: pd.DataFrame,
     categorical_fill: object = "Missing",
-    numerical_fill: callable = np.mean
+    numerical_fill: object = -1
 ) -> pd.DataFrame:
     """
     Fills nan values in the dataset with provided rules.
@@ -121,7 +121,8 @@ def _fill_nan(
             df[col].fillna(categorical_fill, inplace=True)
         else:
             # Numerical columns.
-            df[col].fillna(numerical_fill(df[col]), inplace=True)
+            # df[col].fillna(numerical_fill(df[col]), inplace=True)
+            df[col].fillna(-1, inplace=True)
     assert not np.any(df.isna())
     return df
 
