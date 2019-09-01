@@ -37,7 +37,7 @@ def generate_feature_set(
 
 def load_dataset(
     path: str = "./data",
-    reduce_ram: bool = False
+    reduce_mem: bool = False
 ) -> Set[pd.DataFrame]:
     """
     Loads the dataset from *_forcus.csv.
@@ -47,7 +47,7 @@ def load_dataset(
     # Checked: TransactionIDs are all unique.
     df_train = pd.read_csv(path + "/train_transaction.csv", index_col="TransactionID")
     df_test = pd.read_csv(path + "/test_transaction.csv", index_col="TransactionID")
-    if reduce_ram:
+    if reduce_mem:
         df_train = mem_utils.reduce_mem_usage(df_train)  # Optional.
         df_test = mem_utils.reduce_mem_usage(df_test)
     X_train, y_train = _split_data(df_train)
