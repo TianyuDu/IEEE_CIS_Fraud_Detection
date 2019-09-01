@@ -114,6 +114,7 @@ def _fill_nan(
     """
     Fills nan values in the dataset with provided rules.
     """
+    print("Filling nan observations...")
     df = df.copy()
     for col in df.columns:
         if col in CATEGORICAL_TRANS:
@@ -151,6 +152,7 @@ def PCA_reduction(
     Returns:
         Modified copy of df.
     """
+    print("Executing PCA reduction on dataset...")
     df = df.copy()
     pca = decomposition.PCA(n_components=n_components, random_state=random_seed)
 
@@ -195,6 +197,7 @@ def pca_and_cluster(
     df = PCA_reduction(df, selected_columns, prefix="PCA_{}_".format(col_id), n_components=n_components, keep=keep)
 
     # Apply kmeans on PCA columns
+    print("Executing k-means on dataset...")
     s = "PCA_{}_".format(col_id)
     pca_columns = [x for x in df.columns if x.startswith(s)]
     kmean = cluster.KMeans(n_clusters=n_clusters)
