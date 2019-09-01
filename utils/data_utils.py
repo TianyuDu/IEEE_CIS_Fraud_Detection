@@ -13,7 +13,7 @@ import pandas as pd
 import tensorflow as tf
 
 import utils.feature_utils as feature_utils
-from utils import ram_utils
+from utils import mem_utils
 
 
 def load_feature_set(
@@ -48,8 +48,8 @@ def load_dataset(
     df_train = pd.read_csv(path + "/train_transaction.csv", index_col="TransactionID")
     df_test = pd.read_csv(path + "/test_transaction.csv", index_col="TransactionID")
     if reduce_ram:
-        df_train = ram_utils.reduce_mem_usage(df_train)  # Optional.
-        df_test = ram_utils.reduce_mem_usage(df_test)
+        df_train = mem_utils.reduce_mem_usage(df_train)  # Optional.
+        df_test = mem_utils.reduce_mem_usage(df_test)
     X_train, y_train = _split_data(df_train)
     X_test = df_test
     assert X_train.shape[1] == X_test.shape[1]
