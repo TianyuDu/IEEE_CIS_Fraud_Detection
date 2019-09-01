@@ -14,3 +14,4 @@ submissions/*
 submissions/random_uniform.csv
 models/__pycache__/generic.cpython-37.pyc
 utils/__pycache__/mem_utils.cpython-37.pyc
+data/df_with_features.csv
