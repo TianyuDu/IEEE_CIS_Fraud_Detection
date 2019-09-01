@@ -40,14 +40,41 @@ def load_feature_set(
     return X_train, y_train, X_test
 
 
-def generate_feature_set(
-    src_path: str = "./data",
-    dest_path: str = "./data"
+def save_feature_set(
+    path: str = "./data/saved_features.csv",
+    reduce_mem: bool = False
 ) -> None:
     """
-    ...
+    Save created features to local disk.
     """
-    raise NotImplementedError
+    X_train, y_train, X_test = load_dataset(path="./data", reduce_mem=False)
+    if reduce_mem:
+        X_train = mem_utils.reduce_mem_usage(X_train)
+        X_test = mem_utils.reduce_mem_usage(X_test)
+    df_train = pd.concat([y_train, X_train], axis=1)
+    print("df_train.shape: {}".format(df_train.shape))
+
+    y_test_placeholder = pd.DataFrame(
+        data=["test"] * X_test.shape[0],
+        index=X_test.index,
+        columns=["isFraud"])
+    df_test = pd.concat([
+        y_test_placeholder, X_test
+    ], axis=1)
+    print("df_test.shape: {}".format(df_test.shape))
+
+    assert np.all(df_train.columns == df_test.columns)
+
+    df_all = pd.concat([df_train, df_test])
+    print("df_all.shape: {}".format(df_all.shape))
+    if reduce_mem:
+        df_all = mem_utils.reduce_mem_usage(df_all)
+    try:
+        df_all.to_csv(path, index=True, header=True)
+    except FileNotFoundError:
+        print("The path provided does not exist: {}".format(path))
+        print("Featured dataset is saved to: ./temp_feature_map.csv")
+        df_all.to_csv("./temp_feature_map.csv", index=True, header=True)
 
 
 def load_dataset(
